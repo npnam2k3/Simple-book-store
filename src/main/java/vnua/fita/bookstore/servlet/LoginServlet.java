@@ -32,7 +32,8 @@ public class LoginServlet extends HttpServlet {
 		String jdbcURL = getServletContext().getInitParameter("jdbcURL");
 		String jdbcUsername = getServletContext().getInitParameter("jdbcUsername");
 		String jdbcPassword = getServletContext().getInitParameter("jdbcPassword");
-		userDAO = new UserDAO("jdbc:mysql://localhost:3306/bookstore", "root", "123456");
+//		userDAO = new UserDAO("jdbc:mysql://localhost:3306/bookstore", "root", "123456");
+		userDAO = new UserDAO(jdbcURL, jdbcUsername, jdbcPassword);
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

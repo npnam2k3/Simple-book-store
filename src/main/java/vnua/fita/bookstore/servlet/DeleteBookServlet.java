@@ -1,21 +1,26 @@
 package vnua.fita.bookstore.servlet;
 
 import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import vnua.fita.bookstore.bean.Book;
 import vnua.fita.bookstore.model.BookDAO;
 
-public class AdminHomeServlet extends HttpServlet {
+/**
+ * Servlet implementation class DeleteBookServlet
+ */
+
+public class DeleteBookServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BookDAO bookDAO;
+
+	public DeleteBookServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	public void init() {
 		String jdbcURL = getServletContext().getInitParameter("jdbcURL");
@@ -27,23 +32,15 @@ public class AdminHomeServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String errors = null;
-		List<Book> list = bookDAO.listAllBooks();
-		if (list.isEmpty()) {
-			errors = "Không thể lấy dữ liệu";
-		}
 
-		request.setAttribute("errors", errors);
-		request.setAttribute("bookList", list);
-		RequestDispatcher rd = this.getServletContext()
-				.getRequestDispatcher("/Views/adminHomeView.jsp");
-		rd.forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String bookId = request.getParameter("bookId");
+		int id = Integer.parseInt(bookId);
+		boolean check = bookDAO.deleteBook(id);
+		response.sendRedirect(request.getContextPath() + "/adminHome");
 	}
 
 }

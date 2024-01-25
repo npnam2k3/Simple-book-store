@@ -21,6 +21,15 @@ public class Book {
 		this.price = price;
 		this.quantityInStock = quantityInStock;
 	}
+	
+
+	public Book(String title, String author, int price, int quantityInStock) {
+		super();
+		this.title = title;
+		this.author = author;
+		this.price = price;
+		this.quantityInStock = quantityInStock;
+	}
 
 	public int getBookId() {
 		return bookId;

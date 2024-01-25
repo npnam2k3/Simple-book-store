@@ -71,12 +71,104 @@ public class BookDAO {
 		return listBook;
 	}
 
-	public static void main(String[] args) {
-		 BookDAO book = new BookDAO("jdbc:mysql://localhost:3306/bookstore", "root",
-		 "123456");
-		List<Book> listBook = book.listAllBooks();
-		for (Book book2 : listBook) {
-			System.out.println(book2);
+	public boolean deleteBook(int bookId) {
+		boolean result = false;
+		// Cau lenh sql
+		String sql = "DELETE FROM tblbook WHERE book_id = ?";
+
+		// Tao ket noi
+		jdbcConnection = DBConnection.createConnection(jdbcURL, jdbcUsername,
+				jdbcPassword);
+
+		try {
+			preStatement = jdbcConnection.prepareStatement(sql);
+			preStatement.setInt(1, bookId);
+			int check = preStatement.executeUpdate();
+			if (check > 0) {
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.closePreparedStatement(preStatement);
+			DBConnection.closeConnect(jdbcConnection);
 		}
+		return result;
+	}
+
+	public Book getBook(int id) {
+		Book book = null;
+		String sql = "SELECT * FROM tblbook WHERE book_id = ?";
+		jdbcConnection = DBConnection.createConnection(jdbcURL, jdbcUsername,
+				jdbcPassword);
+		try {
+			preStatement = jdbcConnection.prepareStatement(sql);
+			preStatement.setInt(1, id);
+			resultSet = preStatement.executeQuery();
+			if (resultSet.next()) {
+				String title = resultSet.getString("title");
+				String author = resultSet.getString("author");
+				int price = resultSet.getInt("price");
+				int quantityInStock = resultSet.getInt("quantity_in_stock");
+				String detail = resultSet.getString("detail");
+				String imagePath = resultSet.getString("image_path");
+
+				// đóng gói các giá trị thuộc tính vào đối tượng Bean(Book)
+				book = new Book(id, title, author, price, quantityInStock);
+				book.setDetail(detail);
+				book.setImagePath(imagePath);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.closeResultSet(resultSet);
+			DBConnection.closePreparedStatement(preStatement);
+			DBConnection.closeConnect(jdbcConnection);
+		}
+		return book;
+	}
+
+	public boolean updateBook(Book book) {
+		boolean result = false;
+		String sql = "UPDATE tblbook SET title = ?, author = ?, price = ?, quantity_in_stock = ? WHERE book_id = ?";
+		jdbcConnection = DBConnection.createConnection(jdbcURL, jdbcUsername,
+				jdbcPassword);
+
+		try {
+			preStatement = jdbcConnection.prepareStatement(sql);
+			preStatement.setString(1, book.getTitle());
+			preStatement.setString(2, book.getAuthor());
+			preStatement.setInt(3, book.getPrice());
+			preStatement.setInt(4, book.getQuantityInStock());
+			preStatement.setInt(5, book.getBookId());
+			result = preStatement.executeUpdate() > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBConnection.closePreparedStatement(preStatement);
+			DBConnection.closeConnect(jdbcConnection);
+		}
+
+		return result;
+	}
+
+	public boolean insertBook(Book book) {
+		boolean insertResult = false;
+		String sql = "INSERT INTO tblbook(title, author, price, quantity_in_stock) VALUE (?,?,?,?)";
+		jdbcConnection = DBConnection.createConnection(jdbcURL, jdbcUsername, jdbcPassword);
+		try {
+			preStatement = jdbcConnection.prepareStatement(sql);
+			preStatement.setString(1, book.getTitle());
+			preStatement.setString(2, book.getAuthor());
+			preStatement.setInt(3, book.getPrice());
+			preStatement.setInt(4, book.getQuantityInStock());
+			insertResult = preStatement.executeUpdate()>0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			DBConnection.closePreparedStatement(preStatement);
+			DBConnection.closeConnect(jdbcConnection);
+		}
+		return insertResult;
 	}
 }

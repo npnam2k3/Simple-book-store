@@ -13,6 +13,10 @@
 	<b>${loginedUser.fullname}</b>
 	<br>
 	<h3>Danh sách các cuốn sách</h3>
+	<p style="color: red">${errors }</p>
+	<form action="deleteBook" id="deleteBookFromAdminForm" method="post">
+		<input type="hidden" name="bookId" id="deleteBookFromAdmin" />
+	</form>
 	<table border="1">
 		<tr>
 			<th>Tiêu đề</th>
@@ -24,13 +28,27 @@
 			<tr>
 				<td>${book.title}</td>
 				<td>${book.author}</td>
-				<td><fmt:formatNumber type="number" maxFractionDigits="0"
-						value="${book.price }" /><sup>đ</sup></td>
-				<td align="center"><button>Sửa</button></td>
-				<td align="center"><button>Xóa</button></td>
+				<td><fmt:formatNumber type="number" value="${book.price }" /><sup>đ</sup></td>
+				<td align="center"><button type="button"
+						onclick="activeAsLink('editBook?bookId=${book.bookId}')">Sửa</button></td>
+				<td align="center"><button type="button"
+						onclick="onClickDeleteBook('${book.title}', ${book.bookId})">Xóa</button></td>
 			</tr>
 		</c:forEach>
 	</table>
+	<a href="createBook">Thêm sách mới</a><br>
 	<a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
+	<script type="text/javascript">
+		function onClickDeleteBook(bookTitle, bookId) {
+			let c = confirm('Bạn chắc chắn muốn xóa cuốn sách '+bookTitle+'?');
+			if(c){
+				document.getElementById("deleteBookFromAdmin").value = bookId;
+				document.getElementById("deleteBookFromAdminForm").submit();
+			}
+		}
+		function activeAsLink(link){
+			window.location = link;
+		}
+	</script>
 </body>
 </html>
