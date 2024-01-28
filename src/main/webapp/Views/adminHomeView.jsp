@@ -28,7 +28,7 @@
 				<tr>
 					<td>${book.title}</td>
 					<td>${book.author}</td>
-					<td><fmt:formatNumber type="number" value="${book.price }" /><sup>đ</sup></td>
+					<td><fmt:formatNumber type="number" maxFractionDigits="0" value="${book.price }" /><sup>đ</sup></td>
 					<td align="center"><button type="button"
 							onclick="activeAsLink('editBook?bookId=${book.bookId}')">Sửa</button></td>
 					<td align="center"><button type="button"
@@ -36,8 +36,7 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<a href="createBook">Thêm sách mới</a><br> <a
-			href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
+		<a href="createBook">Thêm sách mới</a><br>
 	</div>
 	<script type="text/javascript">
 		function onClickDeleteBook(bookTitle, bookId) {

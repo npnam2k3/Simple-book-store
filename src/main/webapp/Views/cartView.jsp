@@ -32,8 +32,10 @@
 					<td>${entry.value.selectedBook.title }</td>
 					<!-- .value: truy cập trực tiếp vào value của hashMap mà không quan tâm đến key -->
 					<td>${entry.value.selectedBook.author }</td>
-					<td><fmt:formatNumber type="number" maxFractionDigits="0"
-							value="${entry.value.selectedBook.price }"></fmt:formatNumber> <sup>đ</sup></td>
+					<td>
+					<fmt:setLocale value="en_US" />
+					<fmt:formatNumber type="number" maxFractionDigits="0" 
+							value="${entry.value.selectedBook.price }" /> <sup>đ</sup></td>
 					<td><img alt="remove-icon"
 						src="${pageContext.request.contextPath }/img/icons-minus.png"
 						onclick="minusValueAndUpdateCart('quantity${entry.value.selectedBook.bookId}');"
@@ -48,7 +50,7 @@
 						width="20" height="20"></td>
 					<td><span id="subtotal${entry.value.selectedBook.bookId }"><fmt:formatNumber
 								type="number" maxFractionDigits="0"
-								value="${entry.value.selectedBook.price * entry.value.quantity }"></fmt:formatNumber></span>
+								value="${entry.value.selectedBook.price * entry.value.quantity }"/></span>
 						<sup>đ</sup></td>
 					<td><button type="button"
 							onclick="onClickRemoveBook('${entry.value.selectedBook.title}',${entry.value.selectedBook.bookId })">
@@ -59,7 +61,7 @@
 		<br> <a href="${pageContext.request.contextPath }/clientHome">Tiếp
 			tục chọn sách</a>&nbsp;&nbsp; Tổng số tiền: <b><span id="total">
 				<fmt:formatNumber type="number" maxFractionDigits="0"
-					value="${cartOfCustomer.totalCost }"></fmt:formatNumber> <sup>đ</sup>
+					value="${cartOfCustomer.totalCost }" /> <sup>đ</sup>
 		</span></b>
 	</div>
 </body>
