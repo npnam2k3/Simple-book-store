@@ -70,6 +70,33 @@ public class BookDAO {
 		}
 		return listBook;
 	}
+	
+	public List<Book> listAllBooks(String keyword){
+		List<Book> searchBookList = new ArrayList<Book>();
+		
+		String sql = "SELECT * FROM tblbook WHERE title LIKE ?";
+		jdbcConnection = DBConnection.createConnection(jdbcURL, jdbcUsername, jdbcPassword);
+		try {
+			preStatement = jdbcConnection.prepareStatement(sql);
+			preStatement.setString(1, "%"+keyword+"%");
+			resultSet = preStatement.executeQuery();
+			while(resultSet.next()) {
+				int id = resultSet.getInt("book_id");
+				String title = resultSet.getString("title");
+				String author = resultSet.getString("author");
+				int price = resultSet.getInt("price");
+				Book book = new Book(id, title, author, price);
+				searchBookList.add(book);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBConnection.closeResultSet(resultSet);
+			DBConnection.closePreparedStatement(preStatement);
+			DBConnection.closeConnect(jdbcConnection);
+		}
+		return searchBookList;
+	}
 
 	public boolean deleteBook(int bookId) {
 		boolean result = false;

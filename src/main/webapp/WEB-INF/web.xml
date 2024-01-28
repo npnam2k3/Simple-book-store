@@ -5,7 +5,8 @@
 	id="WebApp_ID" version="4.0">
 	<display-name>SimpleBookStore</display-name>
 	<welcome-file-list>
-		<welcome-file>Views/clientHomeView.jsp</welcome-file>
+		<welcome-file>clientHome</welcome-file>
+		
 	</welcome-file-list>
 	<servlet>
 		<servlet-name>login</servlet-name>

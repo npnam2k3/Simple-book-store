@@ -9,35 +9,36 @@
 <title>Trang chủ phía admin</title>
 </head>
 <body>
-	Xin chào
-	<b>${loginedUser.fullname}</b>
-	<br>
-	<h3>Danh sách các cuốn sách</h3>
-	<p style="color: red">${errors }</p>
-	<form action="deleteBook" id="deleteBookFromAdminForm" method="post">
-		<input type="hidden" name="bookId" id="deleteBookFromAdmin" />
-	</form>
-	<table border="1">
-		<tr>
-			<th>Tiêu đề</th>
-			<th>Tác giả</th>
-			<th>Giá tiền</th>
-			<th colspan="2" width="120px">Thao tác</th>
-		</tr>
-		<c:forEach items="${bookList}" var="book">
+	<jsp:include page="_header.jsp"></jsp:include>
+	<jsp:include page="_menu.jsp"></jsp:include>
+	<div align="center">
+		<h3>Danh sách các cuốn sách</h3>
+		<p style="color: red">${errors }</p>
+		<form action="deleteBook" id="deleteBookFromAdminForm" method="post">
+			<input type="hidden" name="bookId" id="deleteBookFromAdmin" />
+		</form>
+		<table border="1">
 			<tr>
-				<td>${book.title}</td>
-				<td>${book.author}</td>
-				<td><fmt:formatNumber type="number" value="${book.price }" /><sup>đ</sup></td>
-				<td align="center"><button type="button"
-						onclick="activeAsLink('editBook?bookId=${book.bookId}')">Sửa</button></td>
-				<td align="center"><button type="button"
-						onclick="onClickDeleteBook('${book.title}', ${book.bookId})">Xóa</button></td>
+				<th>Tiêu đề</th>
+				<th>Tác giả</th>
+				<th>Giá tiền</th>
+				<th colspan="2" width="120px">Thao tác</th>
 			</tr>
-		</c:forEach>
-	</table>
-	<a href="createBook">Thêm sách mới</a><br>
-	<a href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
+			<c:forEach items="${bookList}" var="book">
+				<tr>
+					<td>${book.title}</td>
+					<td>${book.author}</td>
+					<td><fmt:formatNumber type="number" value="${book.price }" /><sup>đ</sup></td>
+					<td align="center"><button type="button"
+							onclick="activeAsLink('editBook?bookId=${book.bookId}')">Sửa</button></td>
+					<td align="center"><button type="button"
+							onclick="onClickDeleteBook('${book.title}', ${book.bookId})">Xóa</button></td>
+				</tr>
+			</c:forEach>
+		</table>
+		<a href="createBook">Thêm sách mới</a><br> <a
+			href="${pageContext.request.contextPath}/logout">Đăng xuất</a>
+	</div>
 	<script type="text/javascript">
 		function onClickDeleteBook(bookTitle, bookId) {
 			let c = confirm('Bạn chắc chắn muốn xóa cuốn sách '+bookTitle+'?');

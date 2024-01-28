@@ -65,9 +65,10 @@ public class LoginServlet extends HttpServlet {
 				HttpSession session = request.getSession();
 				MyUtil.storeLoginedUser(session, user);
 				if (user.getRole() == 0) {
-					RequestDispatcher rd = this.getServletContext()
-							.getRequestDispatcher("/Views/clientHomeView.jsp");
-					rd.forward(request, response);
+//					RequestDispatcher rd = this.getServletContext()
+//							.getRequestDispatcher("/Views/clientHomeView.jsp");
+//					rd.forward(request, response);
+					response.sendRedirect(request.getContextPath()+"/clientHome");
 				} else if (user.getRole() == 1) {
 //					RequestDispatcher rd = this.getServletContext()
 //							.getRequestDispatcher("/Views/adminHomeView.jsp");
